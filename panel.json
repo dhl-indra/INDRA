@@ -1,0 +1,138 @@
+{
+  "columns": [],
+  "datasource": "Telegraf",
+  "fontSize": "100%",
+  "gridPos": {
+    "h": 9,
+    "w": 6,
+    "x": 0,
+    "y": 50
+  },
+  "id": 33,
+  "links": [],
+  "pageSize": null,
+  "repeat": "tags",
+  "repeatDirection": "h",
+  "scroll": true,
+  "showHeader": true,
+  "sort": {
+    "col": 0,
+    "desc": true
+  },
+  "styles": [
+    {
+      "alias": "Time",
+      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+      "pattern": "Time",
+      "type": "date"
+    },
+    {
+      "alias": "Place ID",
+      "colorMode": null,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+      "decimals": 0,
+      "pattern": "place_id",
+      "thresholds": [],
+      "type": "number",
+      "unit": "none"
+    },
+    {
+      "alias": "Tag",
+      "colorMode": null,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+      "decimals": 2,
+      "pattern": "presence.*.place.tag",
+      "thresholds": [],
+      "type": "string",
+      "unit": "short"
+    },
+    {
+      "alias": "Place Name",
+      "colorMode": null,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+      "decimals": 0,
+      "pattern": "presence.*.place.place_name",
+      "thresholds": [],
+      "type": "number",
+      "unit": "short"
+    },
+    {
+      "alias": "",
+      "colorMode": null,
+      "colors": [
+        "rgba(245, 54, 54, 0.9)",
+        "rgba(237, 129, 40, 0.89)",
+        "rgba(50, 172, 45, 0.97)"
+      ],
+      "decimals": 2,
+      "pattern": "/.*/",
+      "thresholds": [],
+      "type": "number",
+      "unit": "short"
+    }
+  ],
+  "targets": [
+    {
+      "groupBy": [
+        {
+          "params": [
+            "$__interval"
+          ],
+          "type": "time"
+        },
+        {
+          "params": [
+            "null"
+          ],
+          "type": "fill"
+        }
+      ],
+      "orderByTime": "ASC",
+      "policy": "default",
+      "query": "SELECT address,  place_id,  place_name FROM /^livepresence.[[projectid]].[0-9A-F]*$/ WHERE $timeFilter AND (\"address\" =~ /^$tags$/) ORDER BY time DESC LIMIT 10",
+      "rawQuery": true,
+      "refId": "A",
+      "resultFormat": "table",
+      "select": [
+        [
+          {
+            "params": [
+              "value"
+            ],
+            "type": "field"
+          },
+          {
+            "params": [],
+            "type": "mean"
+          }
+        ]
+      ],
+      "tags": []
+    }
+  ],
+  "title": "Presence History",
+  "transform": "table",
+  "type": "table",
+  "scopedVars": {
+    "tags": {
+      "text": "C20E8FA60EE3",
+      "value": "C20E8FA60EE3",
+      "selected": false
+    }
+  }
+}
